@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moodboard Interativo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Optimized and grouped CSS */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            overflow: hidden;
+            color: #e5e7eb;
+        }
+        #moodboard-container {
+            position: relative;
+            overflow: hidden;
+        }
+        #moodboard-container::before {
+            content: '';
+            position: absolute;
+            left: var(--mouse-x, -500px);
+            top: var(--mouse-y, -500px);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.2) 0%, rgba(79, 70, 229, 0) 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+            transition: left 0.3s ease-out, top 0.3s ease-out;
+        }
+        .moodboard-image-container {
+            position: absolute;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, top 0.4s ease, left 0.4s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            overflow: visible;
+            cursor: grab;
+            min-width: 150px;
+            min-height: 150px;
+        }
+        /* Consolidated Hover and Dragging Effects */
+        .moodboard-image-container:hover {
+            z-index: 20;
+            box-shadow: 0 0 5px rgba(99, 102, 241, 0.8);
+        }
+        .moodboard-image-container.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+        .resize-handle {
+            position: absolute;
+            bottom: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255,255,255,0.8);
+            border: 2px solid #4f46e5;
+            border-radius: 50%;
+            cursor: nwse-resize;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Moodboard Interface -->
+    <div id="upload-screen" class="text-center w-full h-full flex flex-col items-center justify-center relative">
+        <button id="upload-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg">Subir Imagens</button>
+    </div>
+
+    <div id="moodboard-container" class="hidden w-full h-full">
+        <!-- Moodboard Actions -->
+    </div>
+
+    <script>
+        // Improved JavaScript for functionality and organization
+        const uploadButton = document.getElementById('upload-button');
+        uploadButton.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.multiple = true;
+            input.click();
+            input.addEventListener('change', (e) => handleFileUpload(e));
+        });
+
+        function handleFileUpload(event) {
+            const files = event.target.files;
+            if (files.length > 0) {
+                const container = document.getElementById('moodboard-container');
+                container.classList.remove('hidden');
+                // Handle file processing here
+            }
+        }
+    </script>
+</body>
+</html>
